@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer{
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus {
+    outline: none;
+    }
+}

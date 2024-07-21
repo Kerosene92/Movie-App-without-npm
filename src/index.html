@@ -3,46 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YummyExam</title>
+    <title>Movie App</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/output.css">
     
 </head>
-<body class="bg-slate-800">
-        <div class="absolute h-full z-50">
-            <input type="checkbox" id="drawer-toggle" class=" relative group/rotator peer">
-            <label class="w-fit px-4 text-4xl  absolute top-0 left-0 inline-block p-4 transition-all ease-in duration-1500 h-full bg-white rounded-lg peer-checked:left-64">
+        <!-- sidebar -->
+        <div class="h-full fixed z-50">
+            <label class="w-fit px-4 text-4xl  absolute top-0 left-0 inline-block p-4 transition-all ease-in duration-500 h-full bg-white rounded-lg">
                 <img src="images/logo.png" class="relative top-0 max-w-12" alt="logo">
-                <label id="clicked" for="drawer-toggle" class="cursor-pointer relative top-1/2 left-1/4 -translate-x-1/2">
+                <label id="drawer-toggle" class="cursor-pointer relative top-1/2 left-1/4 -translate-x-1/2 closed">
                     <i class="fa-solid fa-bars "></i>
                 </label>
             </label>
-            <div  class="fixed top-0 left-0 z-20 w-64 h-full transition-all ease-in duration-1500 transform -translate-x-full bg-black shadow-lg peer-checked:translate-x-0">
-                <div id="drawer-categories" class="px-6 py-4  hidden">
+            <div id="drawer" class="fixed top-0 left-0 z-20 w-64 h-full transition-all ease-in duration-500 bg-black shadow-lg -translate-x-full">
+                <div id="drawer-categories" class="px-6 py-4 z-20 hidden">
                     <ul class="cursor-pointer text-white text-xl font-bold capitalize">
-                        <li class="py-2">Search</li>
-                        <li class="py-2">Categories</li>
-                        <li class="py-2">Area</li>
-                        <li class="py-2">Ingredients</li>
-                        <li class="py-2">Contact Us</li>
+                        <li class="py-4 hover:text-red-900 duration-300" apiValue="movie/now_playing">Now playing</li>
+                        <li class="py-4 hover:text-red-900 duration-300" apiValue="movie/popular">Popular</li>
+                        <li class="py-4 hover:text-red-900 duration-300" apiValue="movie/top_rated">Top Rated</li>
+                        <li class="py-4 hover:text-red-900 duration-300" apiValue="trending/movie/day">Trending</li>
+                        <li class="py-4 hover:text-red-900 duration-300" apiValue="movie/upcoming">Upcoming</li>
+                        <li id="contactbtn" class="py-4 hover:text-red-900 duration-300">Contact Us</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div>
-            <div id="main-page" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:text-3xl gap-4 ps-[5.75rem] pe-3 py-3">
-                
+        <div id="main-page" class="bg-gray-900 h-full min-h-[100vh]">
+            <!-- search bar -->
+            <form class="md:max-w-2xl md:ps- max-w-sm mx-auto ps-10 pt-3"> 
+                <label for="default-search" class="mb-2 text-sm font-medium sr-only text-white">Search</label>
+                <input type="search" id="default-search" class="block w-full p-4 ps-10  text-sm text-gray-700 border border-white bg-transparent rounded-full" placeholder="Search" required />
+            </form>
+            <!-- home page -->
+                <div id="home-page"> 
+                    <div id="content" class="relative flex flex-wrap justify-evenly h-auto min-h-[50vhvh] w-full py-16 ps-[5rem] md:ps-[8rem] pe-7">
+                        
+                    </div>
+                </div>
+                <!-- loading-screen -->
+                <div id="loading-screen" class="absolute top-0 left-0 right-0 bottom-0 bg-gray-800 opacity-90 flex justify-center items-center z-10 ">
+                    <svg class="animate-spin h-20 w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                </div>
             </div>
+            <!-- scrollbutton -->
+            <button id="scrollTopBtn" class="flex fixed bottom-4 z-50 right-4 w-12 h-12 bg-blue-500 text-white text-2xl rounded-full items-center justify-center transition-opacity duration-300">
+                <i class="fas fa-arrow-up"></i>
+            </button>
         </div>
-    <div id="loading-screen" class="absolute top-0 left-0 right-0 bottom-0 bg-gray-800 opacity-90 flex justify-center items-center z-10 ">
-        <svg class="animate-spin h-20 w-20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-            </path>
-        </svg>
-    </div>
-
+        <!-- contact form -->
+        <form id="contact-us" class="relative h-[18rem] pt-10 w-full bg-gray-900 group ">
+            <div class="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-2/3">
+                <div class="grid gap-6 mb-6 md:grid-cols-2 w-full">
+                    <div class="relative overflow-visible">
+                        <input type="text" id="name" class="contact-validation  bg-transparent border-b border-[#ced4da] text-[#ced4da]  text-sm block w-full p-2.5 " placeholder="Enter Your Name" required />
+                        <div class="absolute -bottom-5 left-2 text-red-600 text-sm hidden"></div>
+                    </div>
+                    <div class="relative overflow-visible">
+                        <input type="email" id="email" class="contact-validation bg-transparent border-b border-[#ced4da] text-[#ced4da] text-sm  block w-full p-2.5" placeholder="Enter Your Email" required />
+                        <div class="absolute -bottom-5 left-2 text-red-600 text-sm hidden"></div>
+                    </div>
+                    <div class="relative overflow-visible">
+                        <input type="tel" id="phone" class="contact-validation bg-transparent border-b border-[#ced4da] text-[#ced4da] text-sm  block w-full p-2.5" placeholder="Enter Your Phone [01223456789]" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
+                        <div class="absolute -bottom-5 left-2 text-red-600 text-sm hidden"></div>
+                    </div>
+                    <div class="relative overflow-visible">
+                        <input type="number" id="age" class="contact-validation bg-transparent border-b border-[#ced4da] text-[#ced4da] text-sm  block w-full p-2.5" placeholder="Enter Your Age" required />
+                        <div class="absolute -bottom-5 left-2 text-red-600 text-sm hidden"></div>
+                    </div>
+                    <div class="relative overflow-visible">
+                        <input type="password" id="password" class="contact-validation bg-transparent border-b border-[#ced4da] text-[#ced4da] text-sm block w-full p-2.5" placeholder="Enter Your Password" required />
+                        <div class="absolute -bottom-5 left-2 text-red-600 text-sm hidden"></div>
+                    </div>  
+                    <div class="relative overflow-visible">
+                        <input type="password" id="re-password" class="contact-validation bg-transparent border-b border-[#ced4da] text-[#ced4da] text-sm  block w-full p-2.5" placeholder="Renter Your Password" required />
+                        <div class="absolute -bottom-5 left-2 text-red-600 text-sm hidden"></div>
+                    </div>
+                </div>
+                <input id='submit-btn' type="submit" class=" relative bg-transparent border-[1px] border-red-800 text-red-800 py-2 px-5 m-2 rounded inline-block capitalize transition-all duration-200 left-[48%] mx-auto" />
+            </div>
+        </form>
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./js/main.js"></script>
 </body>
